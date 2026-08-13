@@ -19,3 +19,17 @@ print(f"Status code: {r.status_code}")
 # Process information about each submission
 submission_ids = r.json()
 submission_dicts = []
+
+# Loop through the top 30 submissions
+for submission_id in submission_ids[:30]:
+    # Make a separate API call for each item
+    url = f"https://hacker-news.firebaseio.com/v0/item/{submission_id}.json"
+    r = requests.get(url)
+    
+    if r.status_code != 200:
+        continue
+        
+    response_dict = r.json()
+    
+    # Safely get comment count; default to 0 if 'descendants' key is missing
+    comments = response_dict.get('descendants', 0)
