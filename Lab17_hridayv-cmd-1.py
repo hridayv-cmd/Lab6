@@ -33,3 +33,20 @@ for submission_id in submission_ids[:30]:
     
     # Safely get comment count; default to 0 if 'descendants' key is missing
     comments = response_dict.get('descendants', 0)
+    # Build dictionary for the article
+    submission_dict = {
+        'title': response_dict.get('title', 'No Title Available'),
+        'hn_link': f"http://news.ycombinator.com/item?id={submission_id}",
+        'comments': comments,
+    }
+    submission_dicts.append(submission_dict)
+
+# Sort submissions by number of comments in descending order
+submission_dicts = sorted(submission_dicts, key=itemgetter('comments'), reverse=True)
+
+# Print results to the console
+for submission_dict in submission_dicts:
+    print(f"\nTitle: {submission_dict['title']}")
+    print(f"URL: {submission_dict['hn_link']}")
+    print(f"Comments: {submission_dict['comments']}")
+
